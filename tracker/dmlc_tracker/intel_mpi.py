@@ -56,9 +56,11 @@ def submit(args):
                 prog = 'mpiexec -n %d %s %s' % (nworker, get_intel_mpi_env(pass_envs), cmd)
             else:
                 prog = 'mpirun -n %d %s %s' % (nworker, get_intel_mpi_env(pass_envs), cmd)
+            logging.info('Cmd: %s' % prog)
             thread = Thread(target=run, args=(prog,))
             thread.setDaemon(True)
             thread.start()
+            logging.info('Workers started')
 
 
         # start servers
@@ -69,9 +71,11 @@ def submit(args):
                 prog = 'mpiexec -n %d %s %s' % (nserver, get_intel_mpi_env(pass_envs), cmd)
             else:
                 prog = 'mpirun -n %d %s %s' % (nserver, get_intel_mpi_env(pass_envs), cmd)
+            logging.info('Cmd: %s' % prog)
             thread = Thread(target=run, args=(prog,))
             thread.setDaemon(True)
             thread.start()
+            logging.info('Servers started')
 
 
     tracker.submit(args.num_workers, args.num_servers,
