@@ -1,3 +1,5 @@
+Modification for Intel MPI
+
 Distributed Machine Learning Common Codebase
 ============================================
 
