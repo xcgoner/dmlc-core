@@ -53,29 +53,35 @@ def submit(args):
             logging.info('Start %d workers by mpirun' % nworker)
             pass_envs['DMLC_ROLE'] = 'worker'
             if sys.platform == 'win32':
-                prog = 'mpiexec -n %d %s %s' % (nworker, get_intel_mpi_env(pass_envs), cmd)
+                prog = 'mpiexec -n %d %s %s : ' % (nworker, get_intel_mpi_env(pass_envs), cmd)
             else:
-                prog = 'mpirun -n %d %s %s' % (nworker, get_intel_mpi_env(pass_envs), cmd)
-            logging.info('Cmd: %s' % prog)
-            thread = Thread(target=run, args=(prog,))
-            thread.setDaemon(True)
-            thread.start()
-            logging.info('Workers started')
+                prog = 'mpirun -n %d %s %s : ' % (nworker, get_intel_mpi_env(pass_envs), cmd)
+            # if sys.platform == 'win32':
+            #     prog = 'mpiexec -n %d %s %s' % (nworker, get_intel_mpi_env(pass_envs), cmd)
+            # else:
+            #     prog = 'mpirun -n %d %s %s' % (nworker, get_intel_mpi_env(pass_envs), cmd)
+            # logging.info('Cmd: %s' % prog)
+            # thread = Thread(target=run, args=(prog,))
+            # thread.setDaemon(True)
+            # thread.start()
+            # logging.info('Workers started')
 
 
         # start servers
         if nserver > 0:
             logging.info('Start %d servers by mpirun' % nserver)
             pass_envs['DMLC_ROLE'] = 'server'
-            if sys.platform == 'win32':
-                prog = 'mpiexec -n %d %s %s' % (nserver, get_intel_mpi_env(pass_envs), cmd)
-            else:
-                prog = 'mpirun -n %d %s %s' % (nserver, get_intel_mpi_env(pass_envs), cmd)
-            logging.info('Cmd: %s' % prog)
-            thread = Thread(target=run, args=(prog,))
-            thread.setDaemon(True)
-            thread.start()
-            logging.info('Servers started')
+            prog += '-n %d %s %s' % (nserver, get_intel_mpi_env(pass_envs), cmd)
+            # if sys.platform == 'win32':
+            #     prog = 'mpiexec -n %d %s %s' % (nserver, get_intel_mpi_env(pass_envs), cmd)
+            # else:
+            #     prog = 'mpirun -n %d %s %s' % (nserver, get_intel_mpi_env(pass_envs), cmd)
+            # logging.info('Cmd: %s' % prog)
+            # thread = Thread(target=run, args=(prog,))
+            # thread.setDaemon(True)
+            # thread.start()
+            # logging.info('Servers started')
+        print(prog)
 
 
     tracker.submit(args.num_workers, args.num_servers,
