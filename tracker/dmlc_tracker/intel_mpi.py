@@ -50,7 +50,7 @@ def submit(args):
 
         # start workers
         if nworker > 0:
-            logging.info('Start %d workers by mpirun' % nworker)
+            # logging.info('Start %d workers by mpirun' % nworker)
             pass_envs['DMLC_ROLE'] = 'worker'
             if sys.platform == 'win32':
                 prog = 'mpiexec -n %d %s %s : ' % (nworker, get_intel_mpi_env(pass_envs), cmd)
@@ -69,7 +69,7 @@ def submit(args):
 
         # start servers
         if nserver > 0:
-            logging.info('Start %d servers by mpirun' % nserver)
+            # logging.info('Start %d servers by mpirun' % nserver)
             pass_envs['DMLC_ROLE'] = 'server'
             prog += '-n %d %s %s' % (nserver, get_intel_mpi_env(pass_envs), cmd)
             # if sys.platform == 'win32':
