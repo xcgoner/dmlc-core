@@ -362,11 +362,11 @@ class PSTracker(object):
         env['DMLC_PS_ROOT_PORT'] = str(self.port)
         for k, v in envs.items():
             env[k] = str(v)
-        # self.thread = Thread(
-        #     target=(lambda: subprocess.check_call(self.cmd, env=env, shell=True)), args=())
-        # self.thread.setDaemon(True)
-        # self.thread.start()
-        print("%s %s" % (cmd, env))
+        self.thread = Thread(
+            target=(lambda: subprocess.check_call(self.cmd, env=env, shell=True)), args=())
+        self.thread.setDaemon(True)
+        self.thread.start()
+        # print("%s %s" % (cmd, env))
 
     def join(self):
         if self.cmd is not None:
