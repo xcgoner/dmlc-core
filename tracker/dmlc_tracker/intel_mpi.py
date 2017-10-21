@@ -81,7 +81,12 @@ def submit(args):
             # thread.setDaemon(True)
             # thread.start()
             # logging.info('Servers started')
-        print(prog)
+        
+        logging.info('Cmd: %s' % prog)
+        thread = Thread(target=run, args=(prog,))
+        thread.setDaemon(True)
+        thread.start()
+        logging.info('Workers started')
 
 
     tracker.submit(args.num_workers, args.num_servers,
